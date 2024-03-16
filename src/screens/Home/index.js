@@ -14,6 +14,12 @@ export default function Home() {
     const cadastrarProduto = () => {
         setCadastrado(true);
     }
+    const handleChangeText = (text) => {
+        setProduto(text);
+        if (text === '') {
+            setCadastrado(false);
+        }
+    };
     return (
         <View style={styles.container}>
             <View style={styles.box}>
@@ -26,7 +32,7 @@ export default function Home() {
                     <TextInput
                         style={styles.input}
                         value={produto}
-                        onChangeText={text => setProduto(text)}
+                        onChangeText={handleChangeText}
                     />
                 </View>
                 <View style={{ paddingTop: 25, flexDirection: 'row', justifyContent: "space-between" }}>
