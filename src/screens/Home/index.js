@@ -1,25 +1,36 @@
+import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, Image } from "react-native";
 import { styles } from "../../../components";
-import { useState } from "react";
+
 const mercadoImg = require("../../../assets/grocery-shopping-rafiki.png");
 
 export default function Home() {
     const [produto, setProduto] = useState('');
     const [cadastrado, setCadastrado] = useState(false);
+    const [produtosSalvos, setProdutosSalvos] = useState([]);
 
     const limparCampoProduto = () => {
         setProduto('');
         setCadastrado(false);
+        limparListaProdutos(); // Chamada para esvaziar a lista de produtos
     }
+
     const cadastrarProduto = () => {
         setCadastrado(true);
+        setProdutosSalvos([...produtosSalvos, produto]); // Adiciona o produto aos produtos salvos
     }
+
+    const limparListaProdutos = () => {
+        setProdutosSalvos([]);
+    }
+
     const handleChangeText = (text) => {
         setProduto(text);
         if (text === '') {
             setCadastrado(false);
         }
     };
+    
     return (
         <View style={styles.container}>
             <View style={styles.box}>
@@ -49,10 +60,12 @@ export default function Home() {
                 </View>
                 {cadastrado && produto !== '' && (
                     <View style={{alignItems: "center"}}>
-                        <Text style={{padding:20}}>Produto(s) cadastrado(s): {produto}</Text>
+                        <Text style={{padding:20}}>Produto(s) cadastrado(s):</Text>
+                        {produtosSalvos.map((produtoSalvo, index) => (
+                            <Text key={index}>{produtoSalvo}</Text>
+                        ))}
                     </View>
                 )}
-
             </View>
         </View>
     );
